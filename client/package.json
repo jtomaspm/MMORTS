@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build_css": "npx tailwindcss -i ./src/css/main.css -o ./static/css/main.css",
+    "build_js": "npx tsc",
+    "build_go": "cd server && go build -o ../client_server ./cmd/server/main.go && cd ..",
+    "build" : "npm run build_css && npm run build_js && npm run build_go", 
+    "start": "npm run build && ./client_server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.2"
+  }
+}
