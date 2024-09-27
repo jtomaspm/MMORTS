@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 static/css/*.css
 static/js/*.js
+client_server
