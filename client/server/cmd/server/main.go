@@ -1,23 +1,25 @@
 package main
 
 import (
+	"client_server/environment"
 	"client_server/routers"
+	"html/template"
 	"log"
 	"net/http"
 )
 
 func main() {
-	log.Println("Hello World!")
+	log.Println("Client Server starting...")
 
-	//Static Dir
-	staticDir := "/static/"
-	http.Handle(staticDir, http.StripPrefix(staticDir, http.FileServer(http.Dir("static"))))
+	//Load Templates
+	templates := template.Must(template.ParseGlob("static/html/*.html"))
 
 	//Routes
-	routers.MountSampleRouter("/")
+	routers.MountStaticRouter("/static/", "./static")
+	routers.MountSampleRouter("/", templates)
 
-	port := ":80"
-	err := http.ListenAndServe(port, nil)
+	server_env := environment.LoadServerEnv("8080")
+	err := http.ListenAndServe(server_env.Port, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

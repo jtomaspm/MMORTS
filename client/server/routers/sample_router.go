@@ -1,18 +1,21 @@
 package routers
 
 import (
-	"client_server/utils"
+	"client_server/render"
+	"html/template"
 	"net/http"
 )
 
-func sampleHandler(w http.ResponseWriter, r *http.Request) {
-	data := map[string]interface{}{
-		"Title": "Home Page",
-		"Body":  "Welcome to the home page!",
+func sampleHandler(templates *template.Template) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		data := map[string]interface{}{
+			"Title": "Home Page",
+			"Body":  "Welcome to the home page!",
+		}
+		render.RenderTemplate(w, "index", data, templates)
 	}
-	utils.RenderTemplate(w, "index", data)
 }
 
-func MountSampleRouter(prefix string) {
-	http.HandleFunc(prefix, sampleHandler)
+func MountSampleRouter(prefix string, templates *template.Template) {
+	http.HandleFunc(prefix, sampleHandler(templates))
 }
